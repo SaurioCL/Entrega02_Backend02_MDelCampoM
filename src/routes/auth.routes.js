@@ -45,12 +45,6 @@ router.post(
   passport.authenticate("register", { session: false }),
   async (req, res) => {
     try {
-      console.log("Usuario registrado:", req.user); // Verifica que req.user está definido
-
-      if (!req.user || !req.user.email) {
-        return res.status(500).json({ error: "No se pudo obtener el email del usuario." });
-      }
-
       await welcomeEmail(req.user.email);
 
       res.status(201).json({
@@ -58,7 +52,6 @@ router.post(
         user: req.user,
       });
     } catch (error) {
-      console.error("Error en la ruta de registro:", error); // Más detalles del error
       res
         .status(500)
         .json({ error: "Error al registrar", details: error.message });
